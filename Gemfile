@@ -23,6 +23,7 @@ group :development, :test do
   gem 'dotenv-rails', '~> 2.8'
   gem 'rubocop'
   gem 'rubocop-rails'
+  gem 'rspec-rails'
 end
 
 group :development do
