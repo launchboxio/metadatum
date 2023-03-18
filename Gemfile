@@ -18,6 +18,7 @@ gem "jwt"
 group :development, :test do
   gem "dotenv-rails", "~> 2.8"
   gem "debug", platforms: %i[ mri mingw x64_mingw ]
+  gem "brakeman"
 end
 
 group :development do
