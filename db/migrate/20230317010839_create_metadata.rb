@@ -6,9 +6,9 @@ class CreateMetadata < ActiveRecord::Migration[7.0]
   def change
     create_table :metadata do |t|
       t.string :sub
-      t.string :ref
-      t.string :sha
-      t.string :repository
+      t.string :ref, index: true
+      t.string :sha, index: true
+      t.string :repository, index: true
       t.string :repository_owner
       t.integer :repository_owner_id
       t.bigint :run_id
@@ -16,11 +16,11 @@ class CreateMetadata < ActiveRecord::Migration[7.0]
       t.bigint :repository_id
       t.bigint :actor_id
       t.string :actor
-      t.string :workflow
+      t.string :workflow, index: true
       t.string :head_ref
       t.string :base_ref
-      t.string :event_name
-      t.string :ref_type
+      t.string :event_name, index: true
+      t.string :ref_type, index: true
       t.string :workflow_ref
       t.string :workflow_sha
       t.string :job_workflow_ref
