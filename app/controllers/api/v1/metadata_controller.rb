@@ -10,7 +10,7 @@ class Api::V1::MetadataController < Api::ApiController
     @metadata.where(ref_type: params[:ref_type]) if params[:ref_type]
 
     # TODO: Support filtering for specific values in .data
-    render json: @metadata.all
+    render json: @metadata.limit(100).all
   end
 
   # Get specific metadata object

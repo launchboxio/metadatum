@@ -37,7 +37,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_17_010839) do
     t.string "job_workflow_sha"
     t.string "runner_environment"
     t.string "iss"
-    t.json "data"
+    t.text "data"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

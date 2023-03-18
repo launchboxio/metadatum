@@ -24,7 +24,7 @@ class CreateMetadata < ActiveRecord::Migration[7.0]
       t.string :runner_environment
       t.string :iss
 
-      t.json :data
+      t.text :data
       t.timestamps
     end
   end
