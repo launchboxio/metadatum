@@ -35,10 +35,6 @@ jobs:
     services:
       postgres:
         image: postgres:12.7
-        env:
-          POSTGRES_USER: metadatum
-          POSTGRES_DB: metadatum_test
-          POSTGRES_PASSWORD: "password"
         ports: ["5432:5432"]
         options: >-
           --health-cmd pg_isready
@@ -58,12 +54,15 @@ jobs:
       - name: Setup test database
         env:
           RAILS_ENV: test
-          DATABASE_URL: postgresql://postgres:password@localhost:5432/metadatum_test
+          DATABASE_URL: "postgres://postgres@localhost:5432/metadatum_test"
         run: |
           bin/rails db:setup
 
-      - name: Run tests
+      - name: Test with RSpec
         env:
-          RAILS_ENV: test
-          DATABASE_URL: postgresql://postgres:password@localhost:5432/metadatum_test
-        run: bin/rspec
+          RAILS_ENV: "test"
+          DATABASE_URL: "postgres://postgres@localhost:5432/test_database_name"
+          RUBYOPT: "-W:no-deprecated -W:no-experimental" # Suppress Rails 6 deprecation warnings for ruby 2.7
+        run: |
+          bundle exec rails db:setup
+          bundle exec rspec
