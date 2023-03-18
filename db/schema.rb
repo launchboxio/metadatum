@@ -40,6 +40,12 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_17_010839) do
     t.text "data"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["event_name"], name: "index_metadata_on_event_name"
+    t.index ["ref"], name: "index_metadata_on_ref"
+    t.index ["ref_type"], name: "index_metadata_on_ref_type"
+    t.index ["repository"], name: "index_metadata_on_repository"
+    t.index ["sha"], name: "index_metadata_on_sha"
+    t.index ["workflow"], name: "index_metadata_on_workflow"
   end
 
 end
