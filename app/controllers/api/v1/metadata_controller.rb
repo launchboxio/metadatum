@@ -7,14 +7,11 @@ module Api
 
       # Search for any metadata stored for this project
       def index
-        @metadata = Metadatum.where(repository: @context[0]['repository'])
-        @metadata.where(ref: params[:ref]) if params[:ref]
-        @metadata.where(workflow: params[:workflow]) if params[:workflow]
-        @metadata.where(event_name: params[:event_name]) if params[:event_name]
-        @metadata.where(ref_type: params[:ref_type]) if params[:ref_type]
-
-        # TODO: Support filtering for specific values in .data
-        render json: @metadata.limit(100).all
+        where = params.slice(:ref, :workflow, :event_name, :ref_type)
+        @metadata = Metadatum
+                    .where(repository: @context[0]['repository'])
+                    .where(where).all
+        render json: @metadata
       end
 
       # Get specific metadata object
@@ -67,28 +64,12 @@ module Api
 
       def create_params
         @context[0].slice(
-          'sub',
-          'ref',
-          'sha',
-          'repository',
-          'repository_owner',
-          'repository_owner_id',
-          'run_id',
-          'repository_visibility',
-          'repository_id',
-          'actor_id',
-          'actor',
-          'workflow',
-          'head_ref',
-          'base_ref',
-          'event_name',
-          'ref_type',
-          'workflow_ref',
-          'workflow_sha',
-          'job_workflow_ref',
-          'job_workflow_sha',
-          'runner_environment',
-          'iss'
+          'sub', 'ref', 'sha', 'repository',
+          'repository_owner', 'repository_owner_id', 'run_id',
+          'repository_visibility', 'repository_id', 'actor_id',
+          'actor', 'workflow', 'head_ref', 'base_ref', 'event_name',
+          'ref_type', 'workflow_ref', 'workflow_sha', 'job_workflow_ref',
+          'job_workflow_sha', 'runner_environment', 'iss'
         )
       end
     end

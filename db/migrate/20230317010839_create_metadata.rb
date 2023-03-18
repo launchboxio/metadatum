@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# rubocop:disable Metrics/MethodLength
+# rubocop:disable Metrics/AbcSize
 class CreateMetadata < ActiveRecord::Migration[7.0]
   def change
     create_table :metadata do |t|
@@ -31,3 +33,5 @@ class CreateMetadata < ActiveRecord::Migration[7.0]
     end
   end
 end
+# rubocop:enable Metrics/MethodLength
+# rubocop:enable Metrics/AbcSize
