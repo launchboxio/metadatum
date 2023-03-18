@@ -53,8 +53,7 @@ jobs:
       - name: Setup test database
         env:
           RAILS_ENV: test
-          PGHOST: localhost
-          PGUSER: metadatum
+          DATABASE_URL: postgresql://postgres@127.0.0.1:5432/metadatum_test
         run: |
           bin/rails db:setup
 
