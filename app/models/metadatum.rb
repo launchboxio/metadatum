@@ -1,3 +1,4 @@
-class Metadatum < ApplicationRecord
+# frozen_string_literal: true
 
+class Metadatum < ApplicationRecord
 end

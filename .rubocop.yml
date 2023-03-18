@@ -1,0 +1,7 @@
+require: rubocop-rails
+
+Style/Documentation:
+  Enabled: false
+
+AllCops:
+  SuggestExtensions: false

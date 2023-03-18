@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 Rails.application.routes.draw do
   scope module: :api, defaults: { format: :json }, path: 'api' do
     namespace :v1 do
