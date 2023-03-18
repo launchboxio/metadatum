@@ -37,10 +37,11 @@ class Api::V1::MetadataController < Api::ApiController
   end
 
   def destroy
-    @metadata = Metadatum.
-      where(repository: @context[0]['repository']).
-      where(id: params[:id]).first!
-    raise ActionController::RoutingError.new('Not Found') if @metadata.nil?
+    @metadata = Metadatum
+                .where(repository: @context[0]['repository'])
+                .where(id: params[:id]).first!
+    raise ActionController::RoutingError, 'Not Found' if @metadata.nil?
+
     @metadata.destroy!
   end
 

@@ -1,3 +1,2 @@
 class Metadatum < ApplicationRecord
-
 end
