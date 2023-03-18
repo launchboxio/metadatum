@@ -38,7 +38,7 @@ jobs:
         env:
           POSTGRES_USER: metadatum
           POSTGRES_DB: metadatum_test
-          POSTGRES_PASSWORD: ""
+          POSTGRES_PASSWORD: "password"
         ports: ["5432:5432"]
         options: >-
           --health-cmd pg_isready
@@ -58,7 +58,7 @@ jobs:
       - name: Setup test database
         env:
           RAILS_ENV: test
-          DATABASE_URL: postgresql://postgres@localhost:5432/metadatum_test
+          DATABASE_URL: postgresql://postgres:password@localhost:5432/metadatum_test
         run: |
           bin/rails db:setup
 
