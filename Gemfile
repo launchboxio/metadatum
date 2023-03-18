@@ -21,9 +21,9 @@ group :development, :test do
   gem 'brakeman'
   gem 'debug', platforms: %i[mri mingw x64_mingw]
   gem 'dotenv-rails', '~> 2.8'
+  gem 'rspec-rails'
   gem 'rubocop'
   gem 'rubocop-rails'
-  gem 'rspec-rails'
 end
 
 group :development do
