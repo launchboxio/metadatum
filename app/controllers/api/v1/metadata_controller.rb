@@ -65,6 +65,7 @@ module Api
       end
 
       # rubocop:disable Metrics/MethodLength
+      # rubocop:disable Metrics/AbcSize
       def jwks_loader = lambda do |options|
         if options[:kid_not_found] && @cache_last_update < Time.now.to_i - 300
           logger.info("Invalidating JWK cache. #{options[:kid]} not found from previous cache")
@@ -78,6 +79,7 @@ module Api
         end
       end
       # rubocop:enable Metrics/MethodLength
+      # rubocop:enable Metrics/AbcSize
 
       def github_jwks_hash
         Net::HTTP.get_response(
