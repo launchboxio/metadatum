@@ -64,18 +64,18 @@ module Api
       end
 
       # rubocop:disable Metrics/MethodLength
-      def jwks_loader = ->(options) do
+      def jwks_loader = lambda do |options|
         if options[:kid_not_found] && @cache_last_update < Time.now.to_i - 300
           logger.info("Invalidating JWK cache. #{options[:kid]} not found from previous cache")
           @cached_keys = nil
         end
         @cached_keys ||= begin
-                           @cache_last_update = Time.now.to_i
-                           # Replace with your own JWKS fetching routine
-                           jwks = JWT::JWK::Set.new(github_jwks_hash)
-                           jwks.select! { |key| key[:use] == 'sig' } # Signing Keys only
-                           jwks
-                         end
+          @cache_last_update = Time.now.to_i
+          # Replace with your own JWKS fetching routine
+          jwks = JWT::JWK::Set.new(github_jwks_hash)
+          jwks.select! { |key| key[:use] == 'sig' } # Signing Keys only
+          jwks
+        end
       end
       # rubocop:enable Metrics/MethodLength
 
