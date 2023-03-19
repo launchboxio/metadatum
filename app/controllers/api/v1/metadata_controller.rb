@@ -49,7 +49,7 @@ module Api
       private
 
       def verify_token
-        @context = JWT.decode(token, nil, true, { algorithms: ['RS512'], jwks: jwks_loader })
+        @context = JWT.decode(token, nil, true, { algorithms: ['RS256'], jwks: jwks_loader })
       end
 
       def create_params
