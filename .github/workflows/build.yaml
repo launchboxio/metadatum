@@ -1,0 +1,15 @@
+name: Build
+
+on:
+  push:
+    - main
+
+jobs:
+  pack:
+    steps:
+      - uses: actions/checkout@v3
+      - uses: buildpacks/github-actions/setup-pack@v5.0.0
+      - run: |
+          pack build ghcr.io/${{ github.repository }}:${{ github.sha }} \
+            --buildpack paketo-buildpacks/ruby \
+            --builder paketobuildpacks/builder:base
