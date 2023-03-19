@@ -3,7 +3,7 @@
 module Api
   module V1
     class MetadataController < Api::ApiController
-      before_action :load_token
+      before_action :verify_token
 
       # Search for any metadata stored for this project
       def index
@@ -48,18 +48,8 @@ module Api
 
       private
 
-      def load_token
-        token = request.headers['Authorization'].split(' ').last
-        @context = JWT.decode token, nil, false
-      end
-
-      # TODO: Validate Github OIDC tokens using their public signing key
-      def load_public_keys(issuer, kid)
-        Rails.cache.fetch("#{issuer}-#{kid}", expires_in: 1.hour) do
-          res = Net::HTTP.get_response(URI("#{issuer}/.well-known/jwks"))
-          key = res['keys'].select { |record| record.kid == kid }.first
-          key if key.not nil
-        end
+      def verify_token
+        @context = JWT.decode(token, nil, true, { algorithms: ['RS512'], jwks: jwks_loader })
       end
 
       def create_params
@@ -70,6 +60,26 @@ module Api
           'actor', 'workflow', 'head_ref', 'base_ref', 'event_name',
           'ref_type', 'workflow_ref', 'workflow_sha', 'job_workflow_ref',
           'job_workflow_sha', 'runner_environment', 'iss'
+        )
+      end
+
+      def jwks_loader = ->(options) do
+        if options[:kid_not_found] && @cache_last_update < Time.now.to_i - 300
+          logger.info("Invalidating JWK cache. #{options[:kid]} not found from previous cache")
+          @cached_keys = nil
+        end
+        @cached_keys ||= begin
+                           @cache_last_update = Time.now.to_i
+                           # Replace with your own JWKS fetching routine
+                           jwks = JWT::JWK::Set.new(github_jwks_hash)
+                           jwks.select! { |key| key[:use] == 'sig' } # Signing Keys only
+                           jwks
+                         end
+      end
+
+      def github_jwks_hash
+        Net::HTTP.get_response(
+          URI('https://token.actions.githubusercontent.com/.well-known/jwks')
         )
       end
     end
