@@ -49,6 +49,7 @@ module Api
       private
 
       def verify_token
+        token = request.headers['Authorization'].split(' ').last.undump
         @context = JWT.decode(token, nil, true, { algorithms: ['RS256'], jwks: jwks_loader })
       end
 
@@ -71,8 +72,7 @@ module Api
         end
         @cached_keys ||= begin
           @cache_last_update = Time.now.to_i
-          # Replace with your own JWKS fetching routine
-          jwks = JWT::JWK::Set.new(github_jwks_hash)
+          jwks = JWT::JWK::Set.new(JSON.parse(github_jwks_hash.body))
           jwks.select! { |key| key[:use] == 'sig' } # Signing Keys only
           jwks
         end
