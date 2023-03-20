@@ -49,8 +49,13 @@ module Api
       private
 
       def verify_token
-        token = request.headers['Authorization'].split(' ').last.undump
-        @context = JWT.decode(token, nil, true, { algorithms: ['RS256'], jwks: jwks_loader })
+        begin
+          token = request.headers['Authorization'].split(' ').last.undump
+          @context = JWT.decode(token, nil, true, { algorithms: ['RS256'], jwks: jwks_loader })
+        rescue => e
+          Rails.logger.error e.message
+          head :unauthorized
+        end
       end
 
       def create_params
