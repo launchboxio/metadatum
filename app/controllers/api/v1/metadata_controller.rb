@@ -25,6 +25,7 @@ module Api
       def create
         params = create_params
         @metadatum = Metadatum.new(params)
+        @metadatum.data = request.raw_post
         @metadatum.save!
       end
 
@@ -34,6 +35,7 @@ module Api
       def update
         params = create_params
         @metadatum = Metadatum.new(params)
+        @metadatum.data = request.raw_post
         @metadatum.save!
       end
 
@@ -49,7 +51,7 @@ module Api
       private
 
       def verify_token
-        token = request.headers['Authorization'].split(' ').last.undump
+        token = request.headers['Authorization'].split(' ').last
         @context = JWT.decode(token, nil, true, { algorithms: ['RS256'], jwks: jwks_loader })
       end
 
