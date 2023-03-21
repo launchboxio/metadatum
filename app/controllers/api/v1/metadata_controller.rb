@@ -51,9 +51,7 @@ module Api
       private
 
       def verify_token
-        puts request.headers['Authorization']
         token = request.headers['Authorization'].split(' ').last
-        puts token
         @context = JWT.decode(token, nil, true, { algorithms: ['RS256'], jwks: jwks_loader })
       end
 
