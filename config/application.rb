@@ -11,7 +11,7 @@ Bundler.require(*Rails.groups)
 # Load dotenv only in development or test environment
 Dotenv::Railtie.load if %w[development test].include? ENV['RAILS_ENV']
 
-module Storac
+module Metadatum
   class Application < Rails::Application
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 7.0
