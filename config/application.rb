@@ -2,6 +2,7 @@
 
 require_relative 'boot'
 require_relative '../lib/middleware/repo_rate_limit'
+require_relative '../lib/middleware/verify_oidc_token'
 require 'rails/all'
 
 # Require the gems listed in Gemfile, including any gems
@@ -24,6 +25,7 @@ module Metadatum
     # config.time_zone = "Central Time (US & Canada)"
     # config.eager_load_paths << Rails.root.join("extras")
 
+    config.middleware.use VerifyOidcToken
     config.middleware.use RepoRateLimit
   end
 end
