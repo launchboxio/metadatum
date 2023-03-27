@@ -49,6 +49,7 @@ module Api
       end
 
       private
+
       def load_context
         @context = request.env['context']
         @repository = request.env['repository']
@@ -67,4 +68,3 @@ module Api
     end
   end
 end
-
