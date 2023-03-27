@@ -57,6 +57,7 @@ jobs:
       - name: Test with RSpec
         env:
           RAILS_ENV: "test"
+          REDIS_URL: "redis://127.0.0.1:6789"
           DATABASE_URL: "postgres://postgres:password@localhost:5432/metadatum_test"
           RUBYOPT: "-W:no-deprecated -W:no-experimental" # Suppress Rails 6 deprecation warnings for ruby 2.7
         run: |
