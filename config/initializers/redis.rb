@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # config/initializers/redis.rb
 require 'redis'
 

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # app/lib/middlewares/verify_oidc_token.rb
 class VerifyOidcToken
   def initialize(app)
@@ -29,21 +31,25 @@ class VerifyOidcToken
     env['repository'] = env['context']['repository']
   end
 
+  # rubocop:disable Metrics/MethodLength
+  # rubocop:disable Metrics/AbcSize
   def jwks_loader = lambda do |options|
     if options[:kid_not_found] && @cache_last_update < Time.now.to_i - 300
       logger.info("Invalidating JWK cache. #{options[:kid]} not found from previous cache")
       @cached_keys = nil
     end
     @cached_keys ||= begin
-                       @cache_last_update = Time.now.to_i
-                       # TODO: This ought to fetch the public signing keys
-                       # based on the data in the token header. Instead of
-                       # hardcoding to Github.com
-                       jwks = JWT::JWK::Set.new(JSON.parse(github_jwks_hash.body))
-                       jwks.select! { |key| key[:use] == 'sig' } # Signing Keys only
-                       jwks
-                     end
+      @cache_last_update = Time.now.to_i
+      # TODO: This ought to fetch the public signing keys
+      # based on the data in the token header. Instead of
+      # hardcoding to Github.com
+      jwks = JWT::JWK::Set.new(JSON.parse(github_jwks_hash.body))
+      jwks.select! { |key| key[:use] == 'sig' } # Signing Keys only
+      jwks
+    end
   end
+  # rubocop:enable Metrics/MethodLength
+  # rubocop:enable Metrics/AbcSize
 
   def get_auth_header(env)
     env['HTTP_AUTHORIZATION']

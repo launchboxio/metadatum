@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # app/lib/middlewares/custom_rate_limit.rb
 class RepoRateLimit
   TIME_PERIOD = 60 # no. of seconds
@@ -18,7 +20,7 @@ class RepoRateLimit
   def should_allow?(env)
     key = env['repository']
 
-    REDIS.set(key, "0", nx: true, ex: TIME_PERIOD)
+    REDIS.set(key, '0', nx: true, ex: TIME_PERIOD)
     REDIS.incr(key) <= LIMIT
   end
 end
