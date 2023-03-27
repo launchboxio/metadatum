@@ -9,12 +9,13 @@ gem 'bootsnap', require: false
 gem 'importmap-rails'
 gem 'jbuilder'
 gem 'jwt', '~> 2.7'
+gem 'net-http'
 gem 'pg', '~> 1.1'
 gem 'puma', '~> 5.0'
 gem 'rails', '~> 7.0.4'
+gem 'redis'
 gem 'sprockets-rails'
 gem 'stimulus-rails'
-gem 'net-http'
 gem 'turbo-rails'
 gem 'tzinfo-data', platforms: %i[mingw mswin x64_mingw jruby]
 
