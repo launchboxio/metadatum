@@ -29,7 +29,7 @@ class VerifyOidcToken
     return false if header.nil?
 
     token = header.split(' ').last
-    env['context'] = JWT.decode(token, nil, true, { algorithms: ['RS256'], jwks: jwks_loader })
+    env['context'] = JWT.decode(token, nil, true, { algorithms: ['RS256'], jwks: jwks_loader })[0]
     env['repository'] = env['context']['repository']
   end
 

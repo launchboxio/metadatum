@@ -8,7 +8,7 @@ module Api
       # Search for any metadata stored for this project
       def index
         where = params.slice(:ref, :workflow, :event_name, :ref_type)
-        @metadata = Metadatum
+        @metadata = Metadata
                     .where(repository: @repository)
                     .where(where).all
         render json: @metadata
@@ -16,7 +16,7 @@ module Api
 
       # Get specific metadata object
       def show
-        @metadata = Metadatum.where(repository: @repository)
+        @metadata = Metadata.where(repository: @repository)
         # TODO: Handle not found records nicer
         render json: @metadata.where(id: params[:id]).first!
       end
@@ -24,7 +24,7 @@ module Api
       # Store new metadata for an object
       def create
         params = create_params
-        @metadatum = Metadatum.new(params)
+        @metadatum = Metadata.new(params)
         @metadatum.data = request.raw_post
         @metadatum.save!
       end
@@ -34,13 +34,13 @@ module Api
       # business of managing pieces of the data blob
       def update
         params = create_params
-        @metadatum = Metadatum.new(params)
+        @metadatum = Metadata.new(params)
         @metadatum.data = request.raw_post
         @metadatum.save!
       end
 
       def destroy
-        @metadata = Metadatum
+        @metadata = Metadata
                     .where(repository: @repository)
                     .where(id: params[:id]).first!
         raise ActionController::RoutingError, 'Not Found' if @metadata.nil?
@@ -49,7 +49,6 @@ module Api
       end
 
       private
-
       def load_context
         @context = request.env['context']
         @repository = request.env['repository']
@@ -68,3 +67,4 @@ module Api
     end
   end
 end
+
