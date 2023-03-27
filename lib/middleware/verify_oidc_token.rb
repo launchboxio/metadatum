@@ -16,9 +16,11 @@ class VerifyOidcToken
 
   def should_allow?(env)
     load_context(env)
-  rescue JWT::DecodeError
+  rescue JWT::DecodeError => e
+    Rails.logger.error(e.message)
     false
-  rescue StandardError
+  rescue StandardError => e
+    Rails.logger.error(e.message)
     false
   end
 
